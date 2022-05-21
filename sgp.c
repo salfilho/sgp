@@ -54,7 +54,7 @@ void cadastroSetor(){
        
      }
   s++;
-  printf("\nDigite o CÃ³digo do Setor ou '0' para Encerrar:  ");
+  printf("\nDigite o codigo do Setor ou '0' para Encerrar:  ");
       scanf("%d",&setor[s].codSetor);
 
     }
