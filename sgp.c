@@ -43,7 +43,7 @@ tipoSetores setor[2];
 
 void cadastroSetor(){
   int s=0;
-  printf("\nDigite o CÃ³digo do Setor ou '0' para Encerrar:  ");
+  printf("\nDigite o codigo do Setor ou '0' para Encerrar:  ");
       scanf("%d",&setor[s].codSetor);
    while (setor[s].codSetor != 0){
      
