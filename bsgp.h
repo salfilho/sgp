@@ -143,112 +143,117 @@ int calcularChequeFunc(){
 int main (){
     int voltarModulo;
     int opcao;
-
-    printf ("--------------------------------------------------\n");
-    printf ("| Sistema de Gestão de Pessoal - | \n");
-    printf ("--------------------------------------------------\n");
-    printf ("| | \n");
-    printf ("| 1 - Funcionários; | \n");   
-    printf ("| 2 - Folha de pagamento; | \n"); 
-    printf ("| 3 - Análise geral; | \n"); 
-    printf ("| 4 - Encerrar o sistema; | \n"); 
-    printf ("| | \n");
-    printf ("--------------------------------------------------\n");
+  do{  
+        printf ("--------------------------------------------------\n");
+        printf ("| Sistema de Gestão de Pessoal - | \n");
+        printf ("--------------------------------------------------\n");
+        printf ("| | \n");
+        printf ("| 1 - Funcionários; | \n");   
+        printf ("| 2 - Folha de pagamento; | \n"); 
+        printf ("| 3 - Análise geral; | \n"); 
+        printf ("| 4 - Encerrar o sistema; | \n"); 
+        printf ("| | \n");
+        printf ("--------------------------------------------------\n");
+        
+        printf ("Digite sua opção:\n");
+        scanf ("%d",&opcao);
+        
+        switch (opcao)
+        {
+          int opcaoFuncionario;
+           
+            case  1:
+             
+            // "do while" Para encerrar o modulo
+            do{
+              //Menu do Funcionario
+                printf ("--------------------------------------------------\n");
+                printf ("| Módulo Funcionário | \n");
+                printf ("--------------------------------------------------\n");
+                printf ("| | \n");
+                printf ("| 1 - Registro; | \n");
+                printf ("| 2 - Consulta; | \n"); 
+                printf ("| 3 - Exclusão; | \n"); 
+                printf ("| 4 - Cálculo de contracheque; | \n");
+                printf ("| 5 - Encerrar o módulo; | \n");  
+                printf ("| | \n");
+                printf ("--------------------------------------------------\n");
+                  //leitura da opcao 
+                    printf ("Digite sua opção:\n");
+                    scanf("%d",&opcaoFuncionario);
     
-    printf ("Digite sua opção:\n");
-    scanf ("%d",&opcao);
-    
-    switch (opcao)
-    {
-      int opcaoFuncionario;
-       int voltarModulo;
-        case  1:
-         
-        // "do while" Para encerrar o modulo
-        do{
-          //Menu do Funcionario
-            printf ("--------------------------------------------------\n");
-            printf ("| Módulo Funcionário | \n");
-            printf ("--------------------------------------------------\n");
-            printf ("| | \n");
-            printf ("| 1 - Registro; | \n");
-            printf ("| 2 - Consulta; | \n"); 
-            printf ("| 3 - Exclusão; | \n"); 
-            printf ("| 4 - Cálculo de contracheque; | \n");
-            printf ("| 5 - Encerrar o módulo; | \n");  
-            printf ("| | \n");
-            printf ("--------------------------------------------------\n");
-              //leitura da opcao 
-                printf ("Digite sua opção:\n");
-                scanf("%d",&opcaoFuncionario);
-
-            switch (opcaoFuncionario)
-            {
-              
-              
-              
-              case 1:
-                printf("\n|Opção 1 escolida!|\n\n");
-                printf("\n|Cadastro dos Setores|\n");
+                switch (opcaoFuncionario)
+                {
                   
-                      cadastroSetor();
-                
-                
-                printf("\n|Registro de funcionarios|\n");
-                      registrarFuncionario(pessoa);
-
-                if (cadastrei == 1){
-                  printf("\n\nFuncionario Cadastrado Com Sucesso!\n\n");
+                  
+                  
+                  case 1:
+                    do{
+                    printf("\n|Opção 1 escolida!|\n\n");
+                    printf("\n|Cadastro dos Setores|\n");
+                      
+                          cadastroSetor();
+                    
+                    
+                    printf("\n|Registro de funcionarios|\n");
+                          registrarFuncionario(pessoa);
+    
+                    if (cadastrei == 1){
+                      printf("\n\nFuncionario Cadastrado Com Sucesso!\n\n");
+                      }
+                    
+                    printf("\n| Deseja voltar para o Modulo de Funcionario |\n");
+                    printf("\n\n|Digite '0'| Caso Não  |Digite qualquer valor|\n\n");
+                    scanf("%d",&voltarModulo);
+                     
+                   }while (voltarModulo != 0);
+                      
+                  break;
+    
+                  case 2:
+                    printf("\n|Opção 2 escolida!|\n\n");
+                    
+                          consultaFuncionario();
+                    
+                  break;
+    
+                  case 3:
+                    printf("\n|Opção 3 escolida!|\n\n");
+                    
+                          exclusaoFuncionario();
+                    
+                  break;
+    
+                  case 4:
+                    printf("\n|Opção 4 escolida!|\n\n");
+                    
+                          calcularChequeFunc();
+                    
+                  break;
+    
+                  case 5:
+                          printf("\n|Módulo De Funcionario Encerrado|\n\n");
+                  break;
+    
+                  default:
+                          printf("\n|Opção Inválida|\n\n");
                   }
-                
-               
-              
-              break;
-
-              case 2:
-                printf("\n|Opção 2 escolida!|\n\n");
-                
-                      consultaFuncionario();
-                
-              break;
-
-              case 3:
-                printf("\n|Opção 3 escolida!|\n\n");
-                
-                      exclusaoFuncionario();
-                
-              break;
-
-              case 4:
-                printf("\n|Opção 4 escolida!|\n\n");
-                
-                      calcularChequeFunc();
-                
-              break;
-
-              case 5:
-                      printf("\n|Módulo De Funcionario Encerrado|\n\n");
-              break;
-
-              default:
-                      printf("\n|Opção Inválida|\n\n");
-              }
-          //Fim do "do while"
-          }while (opcaoFuncionario != 5);
-            break;
-        case 2:
-            printf("Escolhida a segunda opção ! \n");
-            break;
-        case 3:
-            printf("Escolhida a terceira opção ! \n");
-            break;
-        case 4:
-            printf("Escolhida a quarta opção ! \n");
-            break;
-        default:
-            printf("Opção inválida !!! \n");
-    }
-
-
+              //Fim do "do while"
+              }while (opcaoFuncionario != 5);
+                break;
+            case 2:
+                printf("Escolhida a segunda opção ! \n");
+                break;
+            case 3:
+                printf("Escolhida a terceira opção ! \n");
+                break;
+            case 4:
+                printf("\n|Programa Encerrado|\n");
+                break;
+            default:
+                printf("Opção inválida !!! \n");
+        }
+    
+    }while (opcao != 4);
     return  0;
 }
