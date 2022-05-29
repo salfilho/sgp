@@ -177,17 +177,44 @@ int registrarFuncionario(tipoFuncionario func){
  return  1; 
 }
 
-int consultaFuncionario(){
-
-
+int consultaFuncionario(tipoFuncionario func){
+ int matricula_consulta = 1;
+  int k;
+  k = 0;
+  int contador = 0;
   
-    
 
 
+printf("Para a pesquisa digite a matricula do funcionrio desejado \n");
+      scanf("%d", &matricula_consulta);
+     while(matricula_consulta != funcionario[contador].matri && contador < 22){
+          contador++;
+     }    
 
-
-  
-  return  0;  
+          if(matricula_consulta == funcionario[contador].matri){
+            printf("Nome: %s \n", funcionario[contador].nomeF);
+            printf("Cargo: %s \n", funcionario[contador].cargo);
+            printf("Matricula: %d \n", funcionario[contador].matri);
+            printf("CPF: %d \n", funcionario[contador].cpf);
+            printf("Data de nascimento %d/%d/%d \n", funcionario[contador].nasci.dia, funcionario[contador].nasci.mes, funcionario[contador].nasci.ano);
+            printf("Estado civil: %s \n", funcionario[contador].EsCivil);
+            printf("Gênero: %s \n", funcionario[contador].genero);
+            printf("Quantidade de filhos menor de idade: %d \n", funcionario[contador].filhos);
+            printf("Salario bruto: %f \n", funcionario[contador].salarioBruto);
+            printf("Status: %s \n", funcionario[contador].status);
+            k++;
+        
+        if(k == 0){
+          printf("Funcionario não encontrado \n");
+          printf("Deseja pesquisar o funcionario novamente? Se sim, digite a matricula, se não, digite 0\n");
+            scanf("%d", &matricula_consulta);
+        } 
+        if(k != 0){
+          printf("Deseja fazer outra consulta? Se sim, digite a matricula, se não, digite 0 \n");
+            scanf("%d", &matricula_consulta);
+        }
+  }
+ return  0;  
 }
 
 void exclusaoFuncionario(){
