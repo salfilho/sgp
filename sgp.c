@@ -354,7 +354,7 @@ setlocale(LC_ALL,"portuguese");
                   case 2:
                     printf("\n|Opção 2 escolida!|\n\n");
                     
-                          consultaFuncionario();
+                          consultaFuncionario(pessoa);
                     
                   break;
     
