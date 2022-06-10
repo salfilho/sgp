@@ -27,7 +27,7 @@ struct pessoa{
   float salarioBruto;
   int cargo;
   char status[20];
-  int salarioLiquido;
+  float salarioLiquido;
 }tipoFuncionario;
 //DeclaraÃ§Ã£o de uma variavel do tipo Struct
 tipoFuncionario funcionario[21];
@@ -486,7 +486,7 @@ void folhaPagamento(){
 }
 //Função de jogar Tudo que tem na memoria para o Arquivo
 void copiaDadosParaArquivo(){
-	
+char titulo[] = {"Arquivos Mortos"};	
 int posicaoSetor,posicaoFuncionario;
     
     for (posicaoSetor = 0;posicaoSetor < 3;posicaoSetor++){
@@ -516,7 +516,7 @@ int posicaoSetor,posicaoFuncionario;
 		}//Fim do if			
 	}//Fim do For
 			
-	
+		fprintf(arquivo,"\n\nFuncionários No %s\n\n",titulo);	
 		// colocar todos os Funcionários Registrados  Desligados 
 		for (posicaoFuncionario = 0;posicaoFuncionario < 21;posicaoFuncionario++){
 			if (arquivoMorto[posicaoFuncionario].matri != 0 && arquivoMorto[posicaoFuncionario].setorFun != 0){
