@@ -27,7 +27,7 @@ struct pessoa{
   float salarioBruto;
   int cargo;
   char status[20];
-  float salarioLiquido;
+  int salarioLiquido;
 }tipoFuncionario;
 //DeclaraÃ§Ã£o de uma variavel do tipo Struct
 tipoFuncionario funcionario[21];
@@ -60,7 +60,7 @@ int posicaoSetor,posicaoFuncionario;
     		fscanf(arquivo,"Código '%d' Cargo: Funcionário\n",&funcionario[posicaoFuncionario].cargo);
 			fscanf(arquivo,"Código '%d' Cargo: Gerente\n",&funcionario[posicaoFuncionario].cargo);
 			
-            fscanf(arquivo,"CPF: %d \n",&funcionario[posicaoFuncionario].cpf);
+            fscanf(arquivo,"CPF: %s \n",&funcionario[posicaoFuncionario].cpf);
             fscanf(arquivo,"Data de nascimento %d/%d/%d \n",&funcionario[posicaoFuncionario].nasci.dia, funcionario[posicaoFuncionario].nasci.mes, funcionario[posicaoFuncionario].nasci.ano);
             fscanf(arquivo,"Estado civil: %s \n",&funcionario[posicaoFuncionario].EsCivil);
             fscanf(arquivo,"Gênero: %s \n",&funcionario[posicaoFuncionario].genero);
@@ -81,7 +81,7 @@ int posicaoSetor,posicaoFuncionario;
     		fscanf(arquivo,"Matricula: %d \n", arquivoMorto[posicaoFuncionario].matri);
     		fscanf(arquivo,"Código '%d' Cargo: Funcionário\n",&arquivoMorto[posicaoFuncionario].cargo);
 			fscanf(arquivo,"Código '%d' Cargo: Gerente\n",&arquivoMorto[posicaoFuncionario].cargo);			
-            fscanf(arquivo,"CPF: %d \n",&arquivoMorto[posicaoFuncionario].cpf);
+            fscanf(arquivo,"CPF: %s \n",&arquivoMorto[posicaoFuncionario].cpf);
             fscanf(arquivo,"Data de nascimento %d/%d/%d \n",&arquivoMorto[posicaoFuncionario].nasci.dia, funcionario[posicaoFuncionario].nasci.mes, funcionario[posicaoFuncionario].nasci.ano);
             fscanf(arquivo,"Estado civil: %s \n", arquivoMorto[posicaoFuncionario].EsCivil);
             fscanf(arquivo,"Gênero: %s \n",&arquivoMorto[posicaoFuncionario].genero);
@@ -104,14 +104,18 @@ int ValidaNascimento(tipoNasci nascimento){
 	}else
 		return 1;
 }
-
-void cadastroSetor(){
+int gcomfirmacao = 0;
+int cadastroSetor(int comfirmacao){
   int s;
   	for (s=0;s <3;s++){
   
   		printf("\nDigite o Código do Setor :  ");
       		scanf("%d",&setor[s].codSetor);
-   	} 
+  
+  	}
+  	if(s < 3){
+	  	return gcomfirmacao = 1; 
+	}
 }
 	
 	tipoFuncionario pessoa;
@@ -159,10 +163,17 @@ int registrarFuncionario(tipoFuncionario func){
     fflush(stdin);
     gets(pessoa.nomeF);
   	printf("\nDigite a Matricula do funcionario:  ");
-    scanf("%d",&pessoa.matri);   	
+    scanf("%d",&pessoa.matri);   
+	
+	do{//Loço de repetição que so para quando o usuario digitar certo	
 	printf("\n|Digite '1' Para Funcionário ou '2' Para Gerente|\n");
   	printf("\nDigite o Cargo do Funcionario:  ");
 	scanf("%d",&pessoa.cargo);
+	//verificação do cargo
+	if (pessoa.cargo != 1 && pessoa.cargo != 2){
+		printf("\nCargo Inválido!\n");
+	}
+}while (pessoa.cargo != 1 && pessoa.cargo != 2);
 		// validação do do Cargo de Gerente
 	      if(pessoa.cargo == 2){
         contador = 0;
@@ -252,14 +263,14 @@ int consultaFuncionario(){
   	int contador = 0;
 
 		printf("Para a pesquisa digite a matricula do funcionrio desejado \n");
-	    scanf("%d", &matricula_consulta);
+	    scanf("%d",&matricula_consulta);
     do{
 	
      	while(matricula_consulta != funcionario[contador].matri && contador < 22){
           contador++;
      	}    
 
-        if(matricula_consulta == funcionario[contador].matri){
+        if(matricula_consulta == funcionario[contador].matri)
 		
 		
             printf("\nNome: %s \n", funcionario[contador].nomeF);
@@ -278,7 +289,7 @@ int consultaFuncionario(){
             printf("Salario bruto: %2.f \n", funcionario[contador].salarioBruto);
             printf("Status: %s \n", funcionario[contador].status);
             k++;
-    		
+    	
         	if(k == 0){
 	          	printf("Funcionario não encontrado \n");
 	          	printf("Deseja pesquisar o funcionario novamente? Se sim, digite a matricula, se não, digite 0\n");
@@ -286,9 +297,9 @@ int consultaFuncionario(){
         	} 
         	if(k != 0){
 	          	printf("Deseja fazer outra consulta? Se sim, digite a matricula, se não, digite 0 \n");
-	            scanf("%d", &matricula_consulta);
+	            scanf("%d",&matricula_consulta);
 	        }
-  	}
+  	
 }while(matricula_consulta !=0);  
   return  0;  
 }
@@ -364,12 +375,7 @@ void exclusaoFuncionario(){
     
     
   } 
-int calcularChequeFunc(){
-  
-  
-  
-  return  0;
-}
+
 
 
 void folhaPagamento(){
@@ -484,15 +490,18 @@ void folhaPagamento(){
 		printf("Porcentagem de funcinários que recebem mais que 2/dois salários mínimo: %2.f%c \n",porcent_salario,S);
 		printf("Porcentagem de funcionários que possuem idade maior que 35 anos: %2.f%c \n",porcent_idade,S);
 }
+
 //Função de jogar Tudo que tem na memoria para o Arquivo
 void copiaDadosParaArquivo(){
-char titulo[] = {"Arquivos Mortos"};	
+char tituloMorto[] = "Funcionários No Aquivo Morto";
+char tituloAtivo[] = "Funcionários Ativos";	
+
 int posicaoSetor,posicaoFuncionario;
     
     for (posicaoSetor = 0;posicaoSetor < 3;posicaoSetor++){
     	fprintf(arquivo,"\nSetores Cadastrados: %d\n Quantidade de funcionarios em cada setores: %d\n",setor[posicaoSetor].codSetor,setor[posicaoSetor].quantidadeFun);
 	}	
-    
+    	fprintf(arquivo,"\n\n%s\n\n",tituloAtivo);
      // colocar todos os Funcionários Registrados Ativos no Arquivo	
     for (posicaoFuncionario = 0;posicaoFuncionario < 22;posicaoFuncionario++){
 		if (funcionario[posicaoFuncionario].matri != 0 && funcionario[posicaoFuncionario].setorFun != 0){
@@ -505,7 +514,7 @@ int posicaoSetor,posicaoFuncionario;
 			}else if (funcionario[posicaoFuncionario].cargo == 2){
 				fprintf(arquivo,"Código '%d' Cargo: Gerente\n",funcionario[posicaoFuncionario].cargo);
 			}
-            fprintf(arquivo,"CPF: %d \n", funcionario[posicaoFuncionario].cpf);
+            fprintf(arquivo,"CPF: %s \n", funcionario[posicaoFuncionario].cpf);
             fprintf(arquivo,"Data de nascimento %d/%d/%d \n", funcionario[posicaoFuncionario].nasci.dia, funcionario[posicaoFuncionario].nasci.mes, funcionario[posicaoFuncionario].nasci.ano);
             fprintf(arquivo,"Estado civil: %s \n", funcionario[posicaoFuncionario].EsCivil);
             fprintf(arquivo,"Gênero: %s \n", funcionario[posicaoFuncionario].genero);
@@ -516,7 +525,7 @@ int posicaoSetor,posicaoFuncionario;
 		}//Fim do if			
 	}//Fim do For
 			
-		fprintf(arquivo,"\n\nFuncionários No %s\n\n",titulo);	
+		fprintf(arquivo,"\n\n%s\n\n",tituloMorto);
 		// colocar todos os Funcionários Registrados  Desligados 
 		for (posicaoFuncionario = 0;posicaoFuncionario < 21;posicaoFuncionario++){
 			if (arquivoMorto[posicaoFuncionario].matri != 0 && arquivoMorto[posicaoFuncionario].setorFun != 0){
@@ -529,7 +538,7 @@ int posicaoSetor,posicaoFuncionario;
 			}else if (arquivoMorto[posicaoFuncionario].cargo == 2){
 				fprintf(arquivo,"Código '%d' Cargo: Gerente\n",arquivoMorto[posicaoFuncionario].cargo);
 			}
-            fprintf(arquivo,"CPF: %d \n", arquivoMorto[posicaoFuncionario].cpf);
+            fprintf(arquivo,"CPF: %s \n", arquivoMorto[posicaoFuncionario].cpf);
             fprintf(arquivo,"Data de nascimento %d/%d/%d \n", arquivoMorto[posicaoFuncionario].nasci.dia, funcionario[posicaoFuncionario].nasci.mes, funcionario[posicaoFuncionario].nasci.ano);
             fprintf(arquivo,"Estado civil: %s \n", arquivoMorto[posicaoFuncionario].EsCivil);
             fprintf(arquivo,"Gênero: %s \n", arquivoMorto[posicaoFuncionario].genero);
@@ -593,10 +602,11 @@ setlocale(LC_ALL,"portuguese");
                   case 1:
                     
                     printf("\n|Opção 1 escolida!|\n\n");
+                    if (gcomfirmacao == 0){
                     printf("\n|Cadastro dos Setores|\n");
-                      
-                          cadastroSetor();
-                    
+                      	
+                          gcomfirmacao = cadastroSetor(gcomfirmacao);
+                    	}
                     do{
                     	printf("\n|Registro de funcionarios|\n");	
                     	
@@ -634,7 +644,7 @@ setlocale(LC_ALL,"portuguese");
                   case 4:
                     printf("\n|Opção  4 escolida!|\n\n");
                     
-                          calcularChequeFunc();
+                          
                     
                   break;
     
