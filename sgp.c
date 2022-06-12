@@ -27,7 +27,7 @@ struct pessoa{
   float salarioBruto;
   int cargo;
   char status[20];
-  int salarioLiquido;
+  float salarioLiquido;
 }tipoFuncionario;
 //DeclaraÃ§Ã£o de uma variavel do tipo Struct
 tipoFuncionario funcionario[21];
