@@ -110,7 +110,7 @@ int cadastroSetor(int comfirmacao){
   	for (s=0;s <3;s++){
   
   		printf("\nDigite o Código do Setor :  ");
-      		scanf("%d",&setor[s].codSetor);
+		scanf("%d",&setor[s].codSetor);
   
   	}
   	if(s < 3){
@@ -211,7 +211,7 @@ int registrarFuncionario(tipoFuncionario func){
 	//Laço de repetição para a validação da Data de Nascimento
 	do{
 	
-  		printf("\nDigite a Data de Nascimento:  ");
+  		printf("\nDigite a Data de Nascimento (dd/mm/aa):   ");
     	scanf("%d/%d/%d",&pessoa.nasci.dia,&pessoa.nasci.mes,&pessoa.nasci.ano);
     // Validação da Data de Nascimento
      	validoN = ValidaNascimento(pessoa.nasci);
@@ -262,7 +262,7 @@ int consultaFuncionario(){
   	k = 0;
   	int contador = 0;
 
-		printf("Para a pesquisa digite a matricula do funcionrio desejado \n");
+		printf("Para a pesquisa digite a matricula do funcionario desejado \n");
 	    scanf("%d",&matricula_consulta);
     do{
 	
@@ -270,9 +270,7 @@ int consultaFuncionario(){
           contador++;
      	}    
 
-        if(matricula_consulta == funcionario[contador].matri)
-		
-		
+        if(matricula_consulta == funcionario[contador].matri){
             printf("\nNome: %s \n", funcionario[contador].nomeF);
             if (funcionario[contador].cargo == 1){
             	printf("Cargo: Funcionário\n");
@@ -289,7 +287,7 @@ int consultaFuncionario(){
             printf("Salario bruto: %2.f \n", funcionario[contador].salarioBruto);
             printf("Status: %s \n", funcionario[contador].status);
             k++;
-    	
+    }
         	if(k == 0){
 	          	printf("Funcionario não encontrado \n");
 	          	printf("Deseja pesquisar o funcionario novamente? Se sim, digite a matricula, se não, digite 0\n");
@@ -372,9 +370,144 @@ void exclusaoFuncionario(){
       	scanf("%d",&opcaoContinua);
       
 	}while (opcaoContinua != 0);
+} 
+
+float calcula_desconto_inss (float sBruto){
+    float desconto_inss, desconto_faixa1,desconto_faixa2,desconto_faixa3,desconto_faixa4;
+    desconto_faixa1 = 0;
+    desconto_faixa2 = 0;
+    desconto_faixa3 = 0;
+    desconto_faixa4 = 0;
+    desconto_inss = 0;
+
+    if(sBruto <= 1212.00){
+        desconto_faixa1 = sBruto * 0.075;        
+    }  
+    if(sBruto > 1212.01 && sBruto <= 2427.35){
+        desconto_faixa1 = 1212.00 * 0.075;
+        desconto_faixa2 = (sBruto - 1212.00) * 0.09;  
+    } 
+            
+    if(sBruto > 2427.36 && sBruto <= 3641.03){
+        desconto_faixa1 = 1212.00 * 0.075;
+        desconto_faixa2 = 1215.35 * 0.09;  
+        desconto_faixa3 = (sBruto - 1212.00 - 1215.35) * 0.12; 
+    } 
+             
+    if(sBruto > 3641.04 && sBruto <= 7087.22){
+        desconto_faixa1 = 1212.00 * 0.075;
+        desconto_faixa2 = 1215.35 * 0.09;
+        desconto_faixa3 = 1213.68 * 0.12;  
+        desconto_faixa4 = (sBruto - 3641.03) * 0.14;
+    }      
     
+    desconto_inss = desconto_faixa1 + desconto_faixa2 + desconto_faixa3 + desconto_faixa4;
+
+    return desconto_inss;
+}
+
+
+float calcula_desconto_irpf (float sLiquido){
+    float aliquota,deducao,desconto_irpf;
+
+    if(sLiquido <= 1903.98) printf("funcionário isento de pagar imposto de renda!");
+          
+    if(sLiquido >= 1903.99 && sLiquido <= 2826.65){
+        aliquota = 0.075;
+        deducao = 142.80;
+    }       
+     
+    if(sLiquido >= 2826.66 && sLiquido <= 3751.05){
+        aliquota = 0.15; 
+        deducao = 354.80;
+    }      
+     
+    if(sLiquido >= 3751.06 && sLiquido <= 4664.68){
+        aliquota = 0.225; 
+        deducao = 636.13;
+    }      
     
-  } 
+    if(sLiquido > 4664.68){
+        aliquota = 0.275; 
+        deducao = 869.36;
+    }      
+    desconto_irpf = (sLiquido * aliquota) - deducao;
+
+    return desconto_irpf;
+    
+}
+
+void calculocontracheque(){
+  int k = 0;
+  float vale_transporte,desconto_inss,salario_bruto,desconto_irpf,salario_liquido1,total_descontos,salario_liquido_final;
+  char nome_funcionario_contracheque[40];
+  int voltarModulo,opcao,cargo_funcionario_contracheque,setor_funcionario_contracheque,matricula_consulta,contador;
+   matricula_consulta = 0;
+  contador = 0;
+		                printf("Para a pesquisa digite a matricula do funcionario desejado \n");
+	                  scanf("%d",&matricula_consulta);	
+	                  
+	            do{
+                    while(matricula_consulta != funcionario[contador].matri && contador < 22){
+                          contador++;
+                    }
+                    
+                    if (matricula_consulta == funcionario[contador].matri){
+                              salario_bruto = funcionario[contador].salarioBruto;
+                              strcpy(nome_funcionario_contracheque,funcionario[contador].nomeF);
+                              cargo_funcionario_contracheque = funcionario[contador].cargo;
+                              setor_funcionario_contracheque = funcionario[contador].setorFun;
+                    vale_transporte = salario_bruto * 0.06;
+                    desconto_inss = calcula_desconto_inss(salario_bruto);                    
+                    salario_liquido1 = salario_bruto - desconto_inss;                    
+                    desconto_irpf = calcula_desconto_irpf(salario_liquido1);
+                    total_descontos = vale_transporte + desconto_inss + desconto_irpf;
+                    salario_liquido_final = salario_bruto - total_descontos;
+					funcionario[contador].salarioLiquido = salario_liquido_final;
+                    printf("\n\n");
+                    printf ("----------------------------------------------------------\n");
+                    printf ("| TST - Desenvolvimento de Sistemas                      |\n");
+                    printf ("| CNPJ: 78.965.365/0001-35                               |\n");
+                    printf ("----------------------------------------------------------\n");
+                    printf ("Nome: %s \n",nome_funcionario_contracheque);
+                    printf ("Cargo: %i \n",cargo_funcionario_contracheque);
+                    printf ("Setor: %i \n",setor_funcionario_contracheque);
+                    printf ("----------------------------------------------------------\n"); 
+                    printf ("| Descrição                 |     Vencimentos            |\n");
+                    printf ("----------------------------------------------------------\n"); 
+                    printf ("|HORAS NORMAIS                          %.2f          |\n",salario_bruto); 
+                    printf ("----------------------------------------------------------\n");
+                    printf ("|Total Vencimentos                      %.2f          |\n",salario_bruto);    
+                    printf ("----------------------------------------------------------\n"); 
+                    printf ("| Descrição                 |     Descontos              |\n");
+                    printf ("----------------------------------------------------------\n");                    
+                    printf ("INSS                                    %.2f           |\n",desconto_inss);       
+                    printf ("IRPF                                    %.2f           |\n",desconto_irpf);        
+                    printf ("Vale transporte                         %.2f           |\n",vale_transporte);
+                    printf ("----------------------------------------------------------\n"); 
+                    printf ("Total descontos                         %.2f           |\n",total_descontos);                    
+                    printf ("---------------------------------------------------------|\n"); 
+                    printf ("Salário Liquido                         %.2f          |\n",salario_liquido_final);                    
+                    printf ("---------------------------------------------------------|\n");
+                    printf ("Salário base:                           %.2f          |\n",salario_bruto);                    
+                    printf ("---------------------------------------------------------|\n");  
+                    printf ("Salário base INSS:                      %.2f          |\n",salario_bruto); 
+                    printf ("---------------------------------------------------------|\n");
+                    printf ("Salário base IRPF:                      %.2f          |\n",salario_liquido1); 
+                    printf ("---------------------------------------------------------\n");   
+				k++;                   
+				}
+				if(k == 0){
+					printf("Funcionario não encontrado \n");
+	          	    printf("Deseja pesquisar o funcionario novamente? Se sim, digite a matricula, se não, digite 0\n");
+	                scanf("%d", &matricula_consulta);
+				}
+				if(k != 0){
+	          	printf("Deseja cálcular novamente? Se sim, digite a matricula, se não, digite 0 \n");
+	            scanf("%d",&matricula_consulta);
+	            }
+		}while(matricula_consulta !=0);
+}
 
 
 
@@ -643,9 +776,7 @@ setlocale(LC_ALL,"portuguese");
     
                   case 4:
                     printf("\n|Opção  4 escolida!|\n\n");
-                    
-                          
-                    
+                          calculocontracheque();
                   break;
     
                   case 5:
