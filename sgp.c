@@ -323,10 +323,11 @@ void exclusaoFuncionario(){
 		printf("\nDigite o CPf do Funcionário que Deseja Mudar os Status: ");
 		fflush(stdin);
 		gets(cpfExclusao);
-	
+		
 		printf("\nDigite a Matrícula do Funcionário : ");
 		scanf("%d",&matriExclusao);
 	c =0;
+	
 		while (matriExclusao != funcionario[c].matri && c < 22){
 			c++;
 		}
@@ -334,7 +335,8 @@ void exclusaoFuncionario(){
 		//Laço para achar o setor do funcionario que sera excluido
         while (setor[s].codSetor != funcionario[c].setorFun && s < 3){
 		    s++;
-		}      
+		}
+		if(matriExclusao == funcionario[c].matri){
 		// Ponteiro recebe o endereço de funcionario
 		mudarStatus = &funcionario[c];
 		//Comparação da cpf digitado com o cpf do funcionario
@@ -351,13 +353,6 @@ void exclusaoFuncionario(){
 		    strcpy(copia,funcionario[c].status);
 		    k++;
 	}
-		if(k == 0){
-			printf("Funcionario não encontrado \n");
-	      	printf("Deseja pesquisar o funcionario novamente? Se sim, digite a matricula, se não, digite 0\n");
-	      	k=0;
-		}
-		if(k != 0){
-		}
 		printf("\nDigite o Novo Status do Funcionário: ");
 		fflush(stdin);
 		scanf("%s",&mudarStatus->status); 
@@ -376,13 +371,25 @@ void exclusaoFuncionario(){
    		posicaoFuncionarioExcluido++;
    		
       	printf("\n Atual Status Do Funcionário : | %s | \n",funcionario[c].status);
-      	
-      	printf("\n   |Deseja Mudar Mais Um Status?|");
-      	printf("\n| Se Sim, Digite '1', Caso Não Digite '0'|\n ");
-      	scanf("%d",&opcaoContinua);
+      }
+      
+      	if(k == 0){
+      		printf("Funcionario não encontrado \n");
+	        printf("Deseja pesquisar o funcionario novamente? Se sim, digite 1, se não, digite 0\n");
+	        	scanf("%d",&opcaoContinua);
+	        c = 0;
+	        k = 0;
+		}
+		
+		if(k != 0){
+			printf("Deseja fazer outra exclusão? Se sim, digite 1, se não, digite 0 \n");
+			scanf("%d",&opcaoContinua);
+			c = 0;
+	        k = 0;
+		}
       
 	}while (opcaoContinua != 0);
-} 
+}
 
 float calcula_desconto_inss (float sBruto){
     float desconto_inss, desconto_faixa1,desconto_faixa2,desconto_faixa3,desconto_faixa4;
