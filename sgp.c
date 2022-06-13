@@ -292,10 +292,13 @@ int consultaFuncionario(){
 	          	printf("Funcionario não encontrado \n");
 	          	printf("Deseja pesquisar o funcionario novamente? Se sim, digite a matricula, se não, digite 0\n");
 	            scanf("%d", &matricula_consulta);
+	            contador = 0;
         	} 
         	if(k != 0){
 	          	printf("Deseja fazer outra consulta? Se sim, digite a matricula, se não, digite 0 \n");
 	            scanf("%d",&matricula_consulta);
+	            contador = 0;
+	            k = 0;
 	        }
   	
 }while(matricula_consulta !=0);  
@@ -310,6 +313,7 @@ void exclusaoFuncionario(){
 	int s;  
   	int cpfCompara,matriExclusao;
   	int c ;
+  	int k = 0;
   	char copia[20];
   	tipoFuncionario *mudarStatus;
 	char cpfExclusao[12];  
@@ -319,15 +323,15 @@ void exclusaoFuncionario(){
 		printf("\nDigite o CPf do Funcionário que Deseja Mudar os Status: ");
 		fflush(stdin);
 		gets(cpfExclusao);
-		
+	
 		printf("\nDigite a Matrícula do Funcionário : ");
-		scanf("%d",&matriExclusao); 
-			// While para Obter a posição do Funcionario
-			c =0;
+		scanf("%d",&matriExclusao);
+	c =0;
 		while (matriExclusao != funcionario[c].matri && c < 22){
 			c++;
 		}
-		//Laço para achar o cetor do funcionario que sera excluido
+		
+		//Laço para achar o setor do funcionario que sera excluido
         while (setor[s].codSetor != funcionario[c].setorFun && s < 3){
 		    s++;
 		}      
@@ -345,7 +349,15 @@ void exclusaoFuncionario(){
 		    printf("\nData De Nascimento Do Funcionário:: %d/%d/%d\n",funcionario[c].nasci.dia,funcionario[c].nasci.mes,funcionario[c].nasci.ano);
 			//copia os status originais do funcionario    
 		    strcpy(copia,funcionario[c].status);
+		    k++;
 	}
+		if(k == 0){
+			printf("Funcionario não encontrado \n");
+	      	printf("Deseja pesquisar o funcionario novamente? Se sim, digite a matricula, se não, digite 0\n");
+	      	k=0;
+		}
+		if(k != 0){
+		}
 		printf("\nDigite o Novo Status do Funcionário: ");
 		fflush(stdin);
 		scanf("%s",&mudarStatus->status); 
@@ -501,10 +513,14 @@ void calculocontracheque(){
 					printf("Funcionario não encontrado \n");
 	          	    printf("Deseja pesquisar o funcionario novamente? Se sim, digite a matricula, se não, digite 0\n");
 	                scanf("%d", &matricula_consulta);
+	                contador = 0;
+	                k = 0;
 				}
 				if(k != 0){
 	          	printf("Deseja cálcular novamente? Se sim, digite a matricula, se não, digite 0 \n");
 	            scanf("%d",&matricula_consulta);
+	            contador = 0;
+	                k = 0;
 	            }
 		}while(matricula_consulta !=0);
 }
